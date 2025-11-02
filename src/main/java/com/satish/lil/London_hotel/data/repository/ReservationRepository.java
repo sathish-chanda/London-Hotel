@@ -7,5 +7,5 @@ import java.util.Date;
 import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<Reservation,Long> {
-    List<Reservation> findByReservationDate(Date resDate);
+    List<Reservation> findAllByReservationDate(Date resDate);
 }
