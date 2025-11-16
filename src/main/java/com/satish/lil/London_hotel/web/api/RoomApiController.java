@@ -51,4 +51,32 @@ public class RoomApiController {
     public void deleteRoom(@PathVariable("id") long id) {
         roomRepository.deleteById(id);
     }
+
+    @PatchMapping("/{id}")
+    public Room partiallyUpdateRoom(@PathVariable("id") long id, @RequestBody Room room) {
+        Optional<Room> existingRoom = roomRepository.findById(id);
+
+        Room oldRoom;
+
+        if(existingRoom.isPresent()) {
+           oldRoom = existingRoom.get();
+        } else {
+            throw new NotFoundException("Room not found with id: " + id);
+        }
+
+
+        if(room.getName() != null) {
+            oldRoom.setName(room.getName());
+        }
+
+        if(room.getRoomNumber() != null) {
+            oldRoom.setRoomNumber(room.getRoomNumber());
+        }
+
+        if(room.getBedInfo() != null) {
+            oldRoom.setBedInfo(room.getBedInfo());
+        }
+
+        return roomRepository.save(oldRoom);
+    }
 }
